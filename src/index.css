@@ -7,6 +7,18 @@
     @apply bg-eggshell-white text-dark-spruce font-sans antialiased overflow-x-hidden;
   }
 
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
   h1,
   h2,
   h3,
@@ -14,6 +26,24 @@
   h5,
   h6 {
     @apply font-serif font-semibold text-dark-spruce;
+  }
+}
+
+@layer components {
+  .form-field {
+    @apply block w-full px-4 py-3 text-base text-gray-900 bg-transparent rounded-lg border-2 border-[#cfe7d7] appearance-none focus:outline-none focus:ring-0 focus:border-[#13ec5b] transition-colors duration-300;
+  }
+
+  .contact-heading {
+    @apply font-baskerville italic font-bold text-white leading-[1.1];
+  }
+
+  .contact-body {
+    @apply font-inter font-normal leading-[1.5];
+  }
+
+  .contact-body-spacing {
+    @apply mt-[30px];
   }
 }
 
@@ -32,3 +62,30 @@
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-dark-spruce;
 }
+
+.glass-base {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  -webkit-backdrop-filter: blur(12px) saturate(120%);
+  backdrop-filter: blur(12px) saturate(120%);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  isolation: isolate;
+}
+
+.glass-sheen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(255, 255, 255, 0.03) 12%,
+    transparent 30%
+  );
+  mix-blend-mode: screen;
+}
+
+
+

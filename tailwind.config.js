@@ -17,6 +17,8 @@ export default {
                 sans: ['Outfit', 'sans-serif'],
                 serif: ['Playfair Display', 'serif'],
                 script: ['Great Vibes', 'cursive'],
+                baskerville: ['Libre Baskerville', 'serif'],
+                inter: ['Inter', 'sans-serif'],
             },
         },
     },

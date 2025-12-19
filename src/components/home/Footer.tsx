@@ -1,5 +1,6 @@
 import React from "react";
 import { Instagram, Linkedin, Mail, Phone, MapPin } from "lucide-react";
+import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 
 const Footer: React.FC = () => {
@@ -9,7 +10,7 @@ const Footer: React.FC = () => {
 
                 <div className="flex flex-col gap-6">
                     <div className="flex items-center gap-3">
-                        <img src={logo} alt="Landscapes India" className="h-12 w-auto" />
+                        <img src={logo} alt="Landscapes India" className="h-12 w-auto" loading="lazy" decoding="async" />
                         <span className="font-serif font-bold text-xl">Landscapes India</span>
                     </div>
                     <p className="font-sans text-sm text-white/60 leading-relaxed max-w-xs">
@@ -23,7 +24,7 @@ const Footer: React.FC = () => {
                         <li><a href="#projects" className="hover:text-white transition-colors">Projects</a></li>
                         <li><a href="#about" className="hover:text-white transition-colors">Our Approach</a></li>
                         <li><a href="#services" className="hover:text-white transition-colors">Services</a></li>
-                        <li><a href="#contact" className="hover:text-white transition-colors">Contact</a></li>
+                        <li><Link to="/contact" className="hover:text-white transition-colors">Contact</Link></li>
                     </ul>
                 </div>
 

@@ -1,11 +1,35 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { MoveHorizontal } from "lucide-react";
-import beforeImg from "../../content/images/projects/arpanbhai/ap1.jpg";
-import afterImg from "../../content/images/projects/arvind_uplands/av2.JPG";
+import beforeImg from "../../content/images/projects/arpanbhai/ap1_lg.webp";
+import afterImg from "../../content/images/projects/arvind_uplands/av2_lg.webp";
 
 const BeforeAfterSlider: React.FC = () => {
     const [sliderPosition, setSliderPosition] = useState(50);
+    const [imagesLoaded, setImagesLoaded] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
+    const sectionRef = useRef<HTMLElement>(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setImagesLoaded(true);
+                    observer.unobserve(entry.target);
+                }
+            },
+            { rootMargin: "50px" }
+        );
+
+        if (sectionRef.current) {
+            observer.observe(sectionRef.current);
+        }
+
+        return () => {
+            if (sectionRef.current) {
+                observer.unobserve(sectionRef.current);
+            }
+        };
+    }, []);
 
     const handleDrag = (e: React.MouseEvent | React.TouchEvent) => {
         if (!containerRef.current) return;
@@ -22,7 +46,7 @@ const BeforeAfterSlider: React.FC = () => {
     };
 
     return (
-        <section className="py-20 px-6 bg-eggshell-white">
+        <section ref={sectionRef} className="py-20 px-6 bg-eggshell-white">
             <div className="max-w-7xl mx-auto flex flex-col items-center gap-12">
                 <div className="text-center">
                     <h2 className="font-serif text-4xl font-semibold text-dark-spruce mb-2">The Transformation</h2>
@@ -40,13 +64,13 @@ const BeforeAfterSlider: React.FC = () => {
                 >
                     <div
                         className="absolute top-0 left-0 w-full h-full bg-cover bg-center"
-                        style={{ backgroundImage: `url(${afterImg})` }}
+                        style={{ backgroundImage: imagesLoaded ? `url(${afterImg})` : "none" }}
                     >
                         <span className="absolute top-8 right-8 py-2 px-4 bg-black/50 text-white rounded font-sans uppercase tracking-widest text-xs z-10 pointer-events-none">After</span>
                     </div>
                     <div
                         className="absolute top-0 left-0 w-full h-full bg-cover bg-center z-[2]"
-                        style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)`, backgroundImage: `url(${beforeImg})` }}
+                        style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)`, backgroundImage: imagesLoaded ? `url(${beforeImg})` : "none" }}
                     >
                         <span className="absolute top-8 left-8 py-2 px-4 bg-black/50 text-white rounded font-sans uppercase tracking-widest text-xs pointer-events-none">Before</span>
                     </div>
