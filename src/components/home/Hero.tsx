@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle } from "lucide-react";
-import heroBg from "../../content/images/pages/home/herobg_lg.webp";
+import heroBg from "../../content/pages/home/herobg_lg.webp";
 
 const Hero: React.FC = () => {
     return (

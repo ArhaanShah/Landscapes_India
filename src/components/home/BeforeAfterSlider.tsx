@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { MoveHorizontal } from "lucide-react";
-import beforeImg from "../../content/images/projects/arpanbhai/ap1_lg.webp";
-import afterImg from "../../content/images/projects/arvind_uplands/av2_lg.webp";
+import beforeImg from "../../content/projects/arpanbhai/ap1_lg.webp";
+import afterImg from "../../content/projects/arvind_uplands/av2_lg.webp";
 
 const BeforeAfterSlider: React.FC = () => {
     const [sliderPosition, setSliderPosition] = useState(50);

@@ -4,11 +4,11 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import "../../index.css";
 
 
-import ap1 from "../../content/images/projects/arpanbhai/ap1_lg.webp";
-import av2 from "../../content/images/projects/arvind_uplands/av2_lg.webp";
-import j1 from "../../content/images/projects/jay_baug/j1_lg.webp";
-import rv4 from "../../content/images/projects/ramvatika/rv4_lg.webp";
-import t1 from "../../content/images/projects/tej/t1_lg.webp";
+import ap1 from "../../content/projects/arpanbhai/ap1_lg.webp";
+import av2 from "../../content/projects/arvind_uplands/av2_lg.webp";
+import j1 from "../../content/projects/jay_baug/j1_lg.webp";
+import rv4 from "../../content/projects/ramvatika/rv4_lg.webp";
+import t1 from "../../content/projects/tej/t1_lg.webp";
 
 const projects = [
     {
@@ -118,10 +118,11 @@ const ProjectCarousel: React.FC = () => {
             <div className="flex justify-center items-center h-[550px] md:h-[650px] relative w-full">
                 <div
                     className="flex items-center justify-center relative w-full max-w-5xl h-full"
-                    style={{
+                    /*style={{
+                        
                         perspective: "1500px",
                         transformStyle: "preserve-3d",
-                    }}
+                    }}*/
                 >
                     {projects.map((project, index) => {
                         const isActive = index === activeIndex;

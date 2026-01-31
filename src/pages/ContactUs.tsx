@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Send, ChevronDown, Mail, Phone } from "lucide-react";
 import Navbar from "../components/home/Navbar";
 import Footer from "../components/home/Footer";
-import leafTexture from "../content/images/pages/contact/leaftexture.png";
+import leafTexture from "../content/pages/contact/leaftexture.png";
 
 const ContactUs: React.FC = () => {
     const [formData, setFormData] = useState({

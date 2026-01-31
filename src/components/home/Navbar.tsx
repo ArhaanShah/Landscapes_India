@@ -8,7 +8,7 @@ interface NavbarProps {
   alwaysShown?: boolean;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ alwaysShown = true }) => {
+const Navbar: React.FC<NavbarProps> = ({ alwaysShown = false }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -21,8 +21,8 @@ const Navbar: React.FC<NavbarProps> = ({ alwaysShown = true }) => {
   }, []);
 
   const navLinks = [
-    { name: "Projects", href: "#projects", isExternal: false },
-    { name: "About", href: "#about", isExternal: false },
+    { name: "Projects", href: "/projects", isExternal: true },
+    { name: "About", href: "/#about", isExternal: false },
     { name: "Contact", href: "/contact", isExternal: true },
   ];
 
@@ -30,8 +30,8 @@ const Navbar: React.FC<NavbarProps> = ({ alwaysShown = true }) => {
     <>
       <motion.nav
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled || alwaysShown
-            ? "py-3 px-8 bg-eggshell-white/95 backdrop-blur-md shadow-sm"
-            : "py-6 px-8 bg-transparent"
+          ? "py-3 px-8 bg-eggshell-white/95 backdrop-blur-md shadow-sm"
+          : "py-6 px-8 bg-transparent"
           }`}
         initial={alwaysShown ? { y: 0 } : { y: -100 }}
         animate={{ y: 0 }}

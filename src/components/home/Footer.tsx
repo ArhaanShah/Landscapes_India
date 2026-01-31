@@ -13,37 +13,37 @@ const Footer: React.FC = () => {
                         <img src={logo} alt="Landscapes India" className="h-12 w-auto" loading="lazy" decoding="async" />
                         <span className="font-serif font-bold text-xl">Landscapes India</span>
                     </div>
-                    <p className="font-sans text-sm text-white/60 leading-relaxed max-w-xs">
+                    <p className="font-inter text-md text-white/70 leading-relaxed max-w-xs">
                         Designing outdoor spaces that honour nature and nurture the human spirit.
                     </p>
                 </div>
 
-                <div>
+                <div className="pl-4">
                     <div className="font-serif text-lg font-semibold mb-6">Explore</div>
-                    <ul className="space-y-4 font-sans text-sm text-white/70">
-                        <li><a href="#projects" className="hover:text-white transition-colors">Projects</a></li>
-                        <li><a href="#about" className="hover:text-white transition-colors">Our Approach</a></li>
-                        <li><a href="#services" className="hover:text-white transition-colors">Services</a></li>
-                        <li><Link to="/contact" className="hover:text-white transition-colors">Contact</Link></li>
+                    <ul className="space-y-4 font-inter text-md text-emerald-100/70">
+                        <li><Link to="/projects" className="hover:text-white hover:translate-x-1 transition-all inline-block">Projects</Link></li>
+                        <li><a href="/#about" className="hover:text-white hover:translate-x-1 transition-all inline-block">Our Approach</a></li>
+                        <li><a href="/#services" className="hover:text-white hover:translate-x-1 transition-all inline-block">Services</a></li>
+                        <li><Link to="/contact" className="hover:text-white hover:translate-x-1 transition-all inline-block">Contact</Link></li>
                     </ul>
                 </div>
 
                 <div>
                     <div className="font-serif text-lg font-semibold mb-6">Legal</div>
-                    <ul className="space-y-4 font-sans text-sm text-white/70">
-                        <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
-                        <li><a href="#" className="hover:text-white transition-colors">Terms & Conditions</a></li>
-                        <li><a href="#" className="hover:text-white transition-colors">Cookie Policy</a></li>
+                    <ul className="space-y-4 font-inter text-md text-emerald-100/70">
+                        <li><a href="#" className="hover:text-white hover:translate-x-1 transition-all inline-block">Privacy Policy</a></li>
+                        <li><a href="#" className="hover:text-white hover:translate-x-1 transition-all inline-block">Terms & Conditions</a></li>
+                        <li><a href="#" className="hover:text-white hover:translate-x-1 transition-all inline-block">Cookie Policy</a></li>
                     </ul>
                 </div>
 
                 <div>
                     <div className="font-serif text-lg font-semibold mb-6">Connect</div>
-                    <div className="flex flex-col gap-4 font-sans text-sm text-white/70">
-                        <a href="mailto:landscapesindia2015@gmail.com" className="flex items-center gap-3 hover:text-white transition-colors">
+                    <div className="flex flex-col gap-4 font-inter text-md text-white/70">
+                        <a href="mailto:landscapesindia2015@gmail.com" className="flex items-center gap-3 hover:text-white hover:translate-x-1 transition-all">
                             <Mail size={18} /> landscapesindia2015@gmail.com
                         </a>
-                        <a href="tel:+919327006384" className="flex items-center gap-3 hover:text-white transition-colors">
+                        <a href="tel:+919327006384" className="flex items-center gap-3 hover:text-white hover:translate-x-1 transition-all">
                             <Phone size={18} /> +91 93270 06384
                         </a>
                         <div className="flex items-center gap-3">
