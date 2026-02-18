@@ -41,7 +41,10 @@ const ProjectsPage: React.FC = () => {
                             transition={{ duration: 0.6, delay: index * 0.1 }}
                             className={`group flex flex-col ${index % 2 !== 0 ? 'md:mt-24' : ''}`}
                         >
-                            <div className="relative overflow-hidden rounded-sm aspect-[4/3] mb-6 cursor-pointer">
+                            <Link
+                                to={`/projects/${project.id}`}
+                                className="relative overflow-hidden rounded-sm aspect-[4/3] mb-6 cursor-pointer block"
+                            >
                                 <div className="absolute inset-0 bg-dark-spruce/0 group-hover:bg-dark-spruce/10 transition-colors duration-500 z-10" />
                                 <img
                                     src={project.imageUrl}
@@ -49,7 +52,7 @@ const ProjectsPage: React.FC = () => {
                                     className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
                                     loading="lazy"
                                 />
-                            </div>
+                            </Link>
 
                             <div className="flex justify-between items-start border-t border-dark-spruce/20 pt-6">
                                 <div>
@@ -65,7 +68,7 @@ const ProjectsPage: React.FC = () => {
                                 </div>
 
                                 <Link
-                                    to="#"
+                                    to={`/projects/${project.id}`}
                                     className="hidden md:flex items-center justify-center w-12 h-12 rounded-full border border-dark-spruce/20 text-dark-spruce group-hover:bg-dark-spruce group-hover:text-white group-hover:border-dark-spruce transition-all duration-300"
                                 >
                                     <ArrowUpRight size={20} />
