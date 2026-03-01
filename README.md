@@ -1,73 +1,110 @@
-# React + TypeScript + Vite
+# Landscapes India Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A responsive marketing website for a landscaping and outdoor design business.
 
-Currently, two official plugins are available:
+The project focuses on showcasing featured landscape projects, explaining the design/build process, and converting visitors through a contact flow.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Highlights
 
-## React Compiler
+- Landing page with modular sections (hero, value strip, projects carousel, process timeline, testimonials, CTA)
+- Projects listing and project detail pages
+- Contact page with a validated inquiry form UI
+- Mobile-first responsive layout using Tailwind CSS
+- React Router based navigation with scroll-to-top behavior
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- React 19
+- TypeScript
+- Vite
+- Tailwind CSS
+- React Router
+- Framer Motion
+- Lucide React icons
+- ESLint
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Routes
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- `/` → Landing page
+- `/projects` → Projects listing
+- `/projects/:projectId` → Project details
+- `/contact` → Contact & inquiry form
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Project Structure
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```text
+Landscapes_India/
+├─ docs/                         # Architecture, setup notes, design references, user stories
+├─ src/
+│  ├─ components/
+│  │  └─ home/                   # Home page section components
+│  ├─ content/                   # Static content assets by page
+│  ├─ data/                      # Data models (e.g., projects)
+│  ├─ pages/                     # Route-level pages
+│  ├─ App.tsx                    # App routes
+│  └─ main.tsx                   # App entrypoint
+├─ index.html
+├─ tailwind.config.js
+├─ vite.config.ts
+└─ package.json
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Getting Started
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Prerequisites
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Node.js 18+ (LTS recommended)
+- npm 9+
+
+### Install
+
+```bash
+npm install
 ```
+
+### Run locally
+
+```bash
+npm run dev
+```
+
+Open the local URL shown in terminal (typically `http://localhost:5173`).
+
+## Available Scripts
+
+- `npm run dev` — start development server
+- `npm run build` — type-check and create production build
+- `npm run preview` — preview production build locally
+- `npm run lint` — run ESLint checks
+
+## Editing Content
+
+- Home page composition: `src/pages/LandingPage.tsx`
+- Contact page form UI/validation: `src/pages/ContactUs.tsx`
+- Project data source: `src/data/projects.ts`
+- Home section components: `src/components/home/*`
+
+If you are adding new projects, keep slugs and IDs stable to avoid breaking project detail links.
+
+## Roadmap (from product docs)
+
+- Sprint 1 (MVP): launch-ready static site with landing, projects, project details, about/contact, and inquiry flow
+- Sprint 2: CMS-ready content structure, spam protection, SEO basics, analytics, media optimization
+- Sprint 3: CMS integration, access control, media management, backups/audit support
+- Sprint 4: performance tuning, cross-browser QA, automated tests, stronger loading/error states
+
+## Deployment
+
+This project builds as a static site.
+
+```bash
+npm run build
+```
+
+Deploy the generated `dist/` folder to your static hosting provider (for example: Vercel, Netlify, Cloudflare Pages, or S3 + CDN).
+
+## Notes
+
+- Current contact form submission is front-end only (ready for backend/email integration).
+- Keep visual tokens and styles consistent with the existing Tailwind/theme setup.
+
