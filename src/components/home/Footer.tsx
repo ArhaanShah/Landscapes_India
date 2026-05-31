@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
                     <div className="font-serif text-lg font-semibold mb-6">Explore</div>
                     <ul className="space-y-4 font-inter text-md text-emerald-100/70">
                         <li><Link to="/projects" className="hover:text-white hover:translate-x-1 transition-all inline-block">Projects</Link></li>
-                        <li><a href="/#about" className="hover:text-white hover:translate-x-1 transition-all inline-block">Our Approach</a></li>
+                        <li><Link to="/about" className="hover:text-white hover:translate-x-1 transition-all inline-block">About Us</Link></li>
                         <li><a href="/#services" className="hover:text-white hover:translate-x-1 transition-all inline-block">Services</a></li>
                         <li><Link to="/contact" className="hover:text-white hover:translate-x-1 transition-all inline-block">Contact</Link></li>
                     </ul>

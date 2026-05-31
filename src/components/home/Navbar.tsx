@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Instagram, Mail, Phone, ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import logo from "../../assets/logo.png";
 
 interface NavbarProps {
@@ -11,6 +11,8 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ alwaysShown = false }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  const currentPath = location.pathname;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,7 +24,7 @@ const Navbar: React.FC<NavbarProps> = ({ alwaysShown = false }) => {
 
   const navLinks = [
     { name: "Projects", href: "/projects", isExternal: true },
-    { name: "About", href: "/#about", isExternal: false },
+    { name: "About", href: "/about", isExternal: true },
     { name: "Contact", href: "/contact", isExternal: true },
   ];
 
@@ -30,7 +32,7 @@ const Navbar: React.FC<NavbarProps> = ({ alwaysShown = false }) => {
     <>
       <motion.nav
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled || alwaysShown
-          ? "py-3 px-8 bg-eggshell-white/95 backdrop-blur-md shadow-sm"
+          ? "py-3 px-8 bg-eggshell-white/95 backdrop-blur-md shadow-sm border-b border-dark-spruce/5"
           : "py-6 px-8 bg-transparent"
           }`}
         initial={alwaysShown ? { y: 0 } : { y: -100 }}
@@ -46,39 +48,49 @@ const Navbar: React.FC<NavbarProps> = ({ alwaysShown = false }) => {
           </Link>
 
           <div className="hidden md:flex gap-10">
-            {navLinks.map((link) => (
-              link.isExternal ? (
+            {navLinks.map((link) => {
+              const isActive = link.isExternal && (
+                currentPath === link.href || 
+                (link.href !== "/" && currentPath.startsWith(link.href))
+              );
+              
+              return link.isExternal ? (
                 <Link
                   key={link.name}
                   to={link.href}
-                  className="font-sans font-medium text-dark-spruce text-base relative group transition-colors"
+                  className={`font-sans font-semibold text-base relative group transition-colors duration-200 ${
+                    isActive ? "text-dark-spruce" : "text-dark-spruce/80 hover:text-dark-spruce"
+                  }`}
                 >
                   {link.name}
-                  <span className="absolute left-0 bottom-[-4px] w-0 h-0.5 bg-dark-spruce transition-all duration-300 group-hover:w-full"></span>
+                  <span className={`absolute left-0 bottom-[-4px] h-0.5 bg-dark-spruce transition-all duration-300 ${
+                    isActive ? "w-full" : "w-0 group-hover:w-full"
+                  }`}></span>
                 </Link>
               ) : (
                 <a
                   key={link.name}
                   href={link.href}
-                  className="font-sans font-medium text-dark-spruce text-base relative group transition-colors"
+                  className="font-sans font-semibold text-dark-spruce/80 hover:text-dark-spruce text-base relative group transition-colors duration-200"
                 >
                   {link.name}
                   <span className="absolute left-0 bottom-[-4px] w-0 h-0.5 bg-dark-spruce transition-all duration-300 group-hover:w-full"></span>
                 </a>
-              )
-            ))}
+              );
+            })}
           </div>
 
           <div className="flex items-center gap-4">
             <Link
               to="/contact"
-              className="hidden md:flex items-center gap-2 bg-tomato-red text-white py-2 px-5 rounded-full font-semibold text-sm hover:bg-dark-spruce transition-all duration-200"
+              className="hidden md:flex items-center gap-2 bg-dark-spruce text-white py-2 px-6 rounded-full font-semibold text-sm hover:bg-tomato-red hover:shadow-[0_8px_24px_rgba(253,96,70,0.25)] transition-all duration-300"
             >
               Let's Talk <ArrowRight size={16} />
             </Link>
             <button
               className="md:hidden block text-dark-spruce"
               onClick={() => setMobileMenuOpen(true)}
+              aria-label="Open menu"
             >
               <Menu />
             </button>
@@ -98,17 +110,25 @@ const Navbar: React.FC<NavbarProps> = ({ alwaysShown = false }) => {
               <button
                 className="absolute top-6 right-6 text-dark-spruce"
                 onClick={() => setMobileMenuOpen(false)}
+                aria-label="Close menu"
               >
                 <X size={32} />
               </button>
               <div className="flex flex-col gap-8 items-center">
-                {navLinks.map((link) => (
-                  link.isExternal ? (
+                {navLinks.map((link) => {
+                  const isActive = link.isExternal && (
+                    currentPath === link.href || 
+                    (link.href !== "/" && currentPath.startsWith(link.href))
+                  );
+                  
+                  return link.isExternal ? (
                     <Link
                       key={link.name}
                       to={link.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className="font-serif text-3xl text-dark-spruce hover:text-dark-spruce transition-colors"
+                      className={`font-serif text-3xl transition-colors duration-200 ${
+                        isActive ? "text-tomato-red font-semibold underline" : "text-dark-spruce hover:text-tomato-red"
+                      }`}
                     >
                       {link.name}
                     </Link>
@@ -117,12 +137,12 @@ const Navbar: React.FC<NavbarProps> = ({ alwaysShown = false }) => {
                       key={link.name}
                       href={link.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className="font-serif text-3xl text-dark-spruce hover:text-dark-spruce transition-colors"
+                      className="font-serif text-3xl text-dark-spruce hover:text-tomato-red transition-colors duration-200"
                     >
                       {link.name}
                     </a>
-                  )
-                ))}
+                  );
+                })}
               </div>
               <div className="flex gap-6 justify-center mt-12 text-dusty-olive">
                 <Instagram className="cursor-pointer hover:text-dark-spruce" />
@@ -138,3 +158,4 @@ const Navbar: React.FC<NavbarProps> = ({ alwaysShown = false }) => {
 };
 
 export default Navbar;
+
