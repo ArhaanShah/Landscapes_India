@@ -78,6 +78,7 @@ export interface Project {
     year?: string;
     area?: string;
     clientType?: string;
+    secondSvgColor?: string;
 }
 
 export const projects: Project[] = [
@@ -92,6 +93,7 @@ export const projects: Project[] = [
         year: '2022',
         area: '2,500 sq.ft',
         clientType: 'Private Residence',
+        secondSvgColor: 'text-dark-spruce/100',
         galleryImages: [
             { src: aneri1, alt: 'Aneri landscape view 1' },
             { src: aneri2, alt: 'Aneri landscape view 2' },
@@ -109,6 +111,7 @@ export const projects: Project[] = [
         year: '2021',
         area: '4,200 sq.ft',
         clientType: 'Private Residence',
+        secondSvgColor: 'text-dusty-olive/100',
         galleryImages: [
             { src: arpan1, alt: 'Arpanbhai residence view 1' },
             { src: arpan2, alt: 'Arpanbhai residence view 2' },
@@ -128,6 +131,7 @@ export const projects: Project[] = [
         year: '2023',
         area: '3,800 sq.ft',
         clientType: 'Private Residence',
+        secondSvgColor: 'text-ash-grey/100',
         galleryImages: [
             { src: kadambari1, alt: 'Kadambari landscape view 1' },
             { src: kadambari2, alt: 'Kadambari landscape view 2' },
@@ -146,6 +150,7 @@ export const projects: Project[] = [
         year: '2022',
         area: '15,000 sq.ft',
         clientType: 'Private Farmhouse',
+        secondSvgColor: 'text-ash-grey/100',
         galleryImages: [
             { src: ramvatika1, alt: 'Ramvatika landscape view 1' },
             { src: ramvatika2, alt: 'Ramvatika landscape view 2' },
@@ -168,6 +173,7 @@ export const projects: Project[] = [
         year: '2023',
         area: '8,500 sq.ft',
         clientType: 'Private Farmhouse',
+        secondSvgColor: 'text-dark-spruce/100',
         galleryImages: [
             { src: jaybaug1, alt: 'Jay Baug garden view 1' },
             { src: jaybaug2, alt: 'Jay Baug garden view 2' },
@@ -189,6 +195,7 @@ export const projects: Project[] = [
         year: '2021',
         area: '6,200 sq.ft',
         clientType: 'Private Residence',
+        secondSvgColor: 'text-dusty-olive/100',
         galleryImages: [
             { src: tej1, alt: 'Tej residence view 1' },
             { src: tej2, alt: 'Tej residence view 2' },
@@ -211,6 +218,7 @@ export const projects: Project[] = [
         year: '2023',
         area: '5,000 sq.ft',
         clientType: 'Luxury Villa Complex',
+        secondSvgColor: 'text-dark-spruce/100',
         galleryImages: [
             { src: arvind1, alt: 'Arvind Uplands view 1' },
             { src: arvind2, alt: 'Arvind Uplands view 2' },
