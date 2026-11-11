@@ -11,49 +11,68 @@ const scale = (image: Locator) => image.evaluate(element => {
     return transform === 'none' ? 1 : new DOMMatrixReadOnly(transform).a;
 });
 
-test.describe('motion enabled', () => {
-    test.use({ reducedMotion: 'no-preference' });
+for (const reducedMotion of ['no-preference', 'reduce'] as const) {
+test.describe(`hovers with motion preference: ${reducedMotion}`, () => {
+    test.use({ reducedMotion });
 
-    test('project strokes remain visible above the overlay and reverse on leave', async ({ page, isMobile }, testInfo) => {
+    test('original two-stroke drawing and withdrawal remain opaque', async ({ page, isMobile }, testInfo) => {
         test.skip(isMobile, 'Mouse hover requires a device with a mouse.');
+        test.setTimeout(60000);
         await page.goto('/projects');
-        const image = page.locator('main a img').first();
-        const card = image.locator('xpath=../../..');
-        const layers = card.locator('.project-svg-stroke');
-        const paths = layers.locator('path');
-        const offsets = () => paths.evaluateAll(elements => elements.map(path => Number.parseFloat(getComputedStyle(path).strokeDashoffset)));
-        await image.scrollIntoViewIfNeeded();
-        await expect(card).toHaveCSS('opacity', '1');
-        const hiddenOffsets = await offsets();
-        expect(hiddenOffsets.every(offset => offset > 1000)).toBe(true);
+        const frames = page.locator('main [class~="group/project"]');
+        // The first three projects cover all three project-stroke colors.
+        for (const index of [0, 1, 2]) {
+            const frame = frames.nth(index);
+            const image = frame.locator('img');
+            const layers = frame.locator('.project-svg-stroke');
+            const paths = layers.locator('path');
+            const offsets = () => paths.evaluateAll(elements => elements.map(path => Number.parseFloat(getComputedStyle(path).strokeDashoffset)));
+            await frame.scrollIntoViewIfNeeded();
+            await expect(frame.locator('..')).toHaveCSS('opacity', '1');
+            await image.evaluate((img: HTMLImageElement) => img.decode());
+            await page.mouse.move(0, 0);
+            const hiddenOffsets = await offsets();
+            expect(hiddenOffsets.length).toBe(2);
+            expect(hiddenOffsets.every(offset => offset > 1000)).toBe(true);
+            await frame.screenshot({ path: testInfo.outputPath(`project-${index}-idle.png`) });
 
-        // Hovering the caption must drive the same effect as hovering the image.
-        await card.getByRole('heading').hover();
-        await expect.poll(offsets).toEqual([0, 0]);
-        const overlayZ = await image.locator('xpath=preceding-sibling::div').evaluate(element => Number(getComputedStyle(element).zIndex));
-        for (const layer of await layers.all()) {
-            expect(await layer.evaluate(element => Number(getComputedStyle(element).zIndex))).toBeGreaterThan(overlayZ);
-            await expect(layer).toHaveCSS('opacity', '0.18');
+            await frame.hover();
+            await expect.poll(async () => (await offsets()).every((offset, i) => offset > 0 && offset < hiddenOffsets[i])).toBe(true);
+            await frame.screenshot({ path: testInfo.outputPath(`project-${index}-drawing.png`) });
+            await expect.poll(offsets).toEqual([0, 0]);
+            await expect.poll(() => paths.evaluateAll(elements => elements.map(path => path.getAttribute('stroke-width')))).toEqual(['700', '700']);
+            const overlayZ = await frame.locator('a > div').first().evaluate(element => Number(getComputedStyle(element).zIndex));
+            for (const layer of await layers.all()) {
+                expect(await layer.evaluate(element => Number(getComputedStyle(element).zIndex))).toBeGreaterThan(overlayZ);
+                await expect(layer).toHaveCSS('opacity', '1');
+            }
+            await frame.screenshot({ path: testInfo.outputPath(`project-${index}-drawn.png`) });
+            await page.mouse.move(0, 0);
+            await expect.poll(offsets).toEqual(hiddenOffsets);
+            await expect.poll(() => paths.evaluateAll(elements => elements.map(path => path.getAttribute('stroke-width')))).toEqual(['200', '200']);
+            await frame.screenshot({ path: testInfo.outputPath(`project-${index}-withdrawn.png`) });
         }
-        await page.screenshot({ path: testInfo.outputPath('project-hover.png') });
-        await page.mouse.move(0, 0);
-        await expect.poll(offsets).toEqual(hiddenOffsets);
+    });
 
-        // Keyboard users get the same animation, including when focus moves within the card.
-        const links = card.getByRole('link');
-        await links.first().focus();
-        await expect.poll(offsets).toEqual([0, 0]);
-        await links.last().focus();
-        await expect.poll(offsets).toEqual([0, 0]);
-        await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'About', exact: true }).focus();
-        await expect.poll(offsets).toEqual(hiddenOffsets);
-
-        // Interrupting an animation must still restore the original image.
-        await card.getByRole('heading').hover();
+    test('project focus and interrupted hovers restore the photo', async ({ page, isMobile }) => {
+        await page.goto('/projects');
+        const frame = page.locator('main [class~="group/project"]').first();
+        const paths = frame.locator('.project-svg-stroke path');
+        const offsets = () => paths.evaluateAll(elements => elements.map(path => Number.parseFloat(getComputedStyle(path).strokeDashoffset)));
+        await frame.scrollIntoViewIfNeeded();
         await page.mouse.move(0, 0);
-        await card.getByRole('heading').hover();
-        await page.mouse.move(0, 0);
+        const hiddenOffsets = await offsets();
+        await frame.getByRole('link').focus();
+        await expect.poll(offsets).toEqual([0, 0]);
+        await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link').first().focus();
         await expect.poll(offsets).toEqual(hiddenOffsets);
+        if (!isMobile) {
+            await frame.hover();
+            await page.mouse.move(0, 0);
+            await frame.hover();
+            await page.mouse.move(0, 0);
+            await expect.poll(offsets).toEqual(hiddenOffsets);
+        }
     });
 
     test('contact texture animates when interacting with the form', async ({ page, isMobile }, testInfo) => {
@@ -70,10 +89,15 @@ test.describe('motion enabled', () => {
         }
         await email.focus();
         await expect.poll(() => scale(image)).toBeCloseTo(1.05, 3);
-        await page.screenshot({ path: testInfo.outputPath('contact-texture.png') });
+        await page.locator('[class~="group/contact"]').screenshot({ path: testInfo.outputPath('contact-texture.png') });
         await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link').first().focus();
         await expect.poll(() => scale(image)).toBe(1);
     });
+});
+}
+
+test.describe('motion enabled', () => {
+    test.use({ reducedMotion: 'no-preference' });
 
     test('page fades preserve the outgoing scroll and reset the incoming page', async ({ page }) => {
         await page.goto('/projects');
@@ -132,15 +156,9 @@ test.describe('motion enabled', () => {
     });
 });
 
-test('reduced motion keeps hover content and navigation usable without zooming', async ({ page, isMobile }) => {
-    await page.goto('/projects');
-    await expect(page.locator('.project-svg-stroke').first()).toBeHidden();
-    const image = page.locator('main a img').first();
-    if (!isMobile) await image.hover();
-    await expect.poll(() => scale(image)).toBe(1);
-    await page.locator('footer').getByRole('link', { name: 'Contact', exact: true }).click();
-    await expect(page.locator('[data-page="/contact"]')).toHaveCSS('opacity', '1');
-    const texture = page.getByAltText('Lush tropical leaves');
-    await page.getByRole('form', { name: 'Contact inquiry' }).getByLabel('Email address *', { exact: true }).focus();
-    await expect.poll(() => scale(texture)).toBe(1);
+test('reduced motion still disables automatic rotation and keeps page navigation usable', async ({ page }) => {
+    await page.goto('/contact');
+    await page.getByRole('link', { name: 'Services', exact: true }).click();
+    await expect(page.locator('[data-page="/"]')).toHaveCSS('opacity', '1');
+    await expect(page.getByRole('button', { name: 'Automatic rotation off (reduced motion)' })).toBeDisabled();
 });

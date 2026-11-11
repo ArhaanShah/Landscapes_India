@@ -4,6 +4,7 @@ import Navbar from "../components/home/Navbar";
 import Footer from "../components/home/Footer";
 import InquiryForm from "../components/InquiryForm";
 import leafTexture from "../content/pages/contact/leaftexture.png";
+import ContentImage from "../components/ContentImage";
 
 const ContactUs: React.FC = () => {
     return (
@@ -13,17 +14,17 @@ const ContactUs: React.FC = () => {
             <div className="group/contact max-w-6xl mx-auto bg-white rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.12)] overflow-hidden flex flex-col lg:flex-row">
 
                 <div className="relative lg:w-5/12 w-full bg-[#1b4d3e] overflow-hidden flex flex-col justify-between p-8 text-white">
-                    <div className="absolute inset-0 z-0">
-                        <img 
+                    <div className="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
+                        <ContentImage
                             src={leafTexture} 
                             alt="Lush tropical leaves" 
-                            className="w-full h-full object-cover opacity-70 transition-transform duration-700 ease-out motion-safe:group-hover/contact:scale-105 motion-safe:group-focus-within/contact:scale-105"
+                            className="contact-hover-image w-full h-full object-cover opacity-70 transition-transform duration-1000 group-hover/contact:scale-105 group-focus-within/contact:scale-105"
                         />
                         <div className="absolute inset-0 bg-gradient-to-b from-[#1b4d3e]/80 via-[#1b4d3e]/60 to-[#1b4d3e]/85"></div>
                     </div>
                     
-                    <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
-                    <div className="absolute bottom-0 left-0 -ml-10 -mb-10 w-48 h-48 bg-emerald-400/10 rounded-full blur-2xl"></div>
+                    <div className="pointer-events-none absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
+                    <div className="pointer-events-none absolute bottom-0 left-0 -ml-10 -mb-10 w-48 h-48 bg-emerald-400/10 rounded-full blur-2xl"></div>
 
                     <div className="relative z-10 space-y-8 mt-0">
                         <div className="w-16 h-1 bg-emerald-300/50 rounded-full mb-6"></div>

@@ -31,6 +31,10 @@ npm run test:e2e
 
 Browser tests cover desktop/mobile navigation, galleries, responsive layout, configured/unconfigured forms, project and contact hovers, and page fades with normal and reduced motion. Requests to the test Formspree endpoint are mocked. Dedicated test builds are stored in `.test-dist/`; production output is `dist/`.
 
+On Windows, check the installed Chrome and Edge browsers with `npx playwright test --config playwright.windows.config.ts`. The hover checks capture idle, drawing, completed, and withdrawn strokes for each project color, including with reduced motion enabled. These two user-triggered hovers always animate; page transitions and automatic testimonial rotation continue to respect reduced motion.
+
+Content images retry one failed request after 500 ms, then show an accessible placeholder if recovery fails. Image checks cover failed/invalid responses, cached images, navigation during a retry, gallery source changes, and loading while scrolling. Vercel's SPA fallback excludes `/assets/` and `/favicon.svg`; verify missing-asset 404s on a Vercel preview before release, since Vite's local preview does not use Vercel routing.
+
 GitHub Actions repeats the checks on a clean Linux checkout. WebP project photos must be included in Git; local JPEG originals are ignored. `src/data/projects.ts` supplies project data, and `src/components/InquiryForm.tsx` supplies both forms.
 
 ## Deployment

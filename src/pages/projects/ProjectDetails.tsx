@@ -6,6 +6,7 @@ import Navbar from '../../components/home/Navbar';
 import Footer from '../../components/home/Footer';
 import Dialog from '../../components/Dialog';
 import { projects } from '../../data/projects';
+import ContentImage from '../../components/ContentImage';
 
 const ProjectDetails: React.FC = () => {
     const { projectId } = useParams<{ projectId: string }>();
@@ -162,9 +163,10 @@ const ProjectDetails: React.FC = () => {
                             onClick={() => setSelectedImage(0)}
                         >
                             <div className="absolute inset-0 bg-dark-spruce/0 group-hover:bg-dark-spruce/10 transition-colors duration-500 z-10" />
-                            <img
-                                src={project.galleryImages[0]?.src}
+                            <ContentImage
+                                src={project.galleryImages[0]?.src ?? project.imageUrl}
                                 alt={project.title}
+                                loading="eager"
                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                             />
                         </motion.button>
@@ -203,7 +205,7 @@ const ProjectDetails: React.FC = () => {
                                 transition={{ duration: 0.3 }}
                             >
                                 <div className="absolute inset-0 bg-dark-spruce/0 group-hover:bg-dark-spruce/15 transition-colors duration-500 z-10" />
-                                <img
+                                <ContentImage
                                     src={image.src}
                                     alt={image.alt}
                                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
@@ -261,7 +263,7 @@ const ProjectDetails: React.FC = () => {
                         }
                     }}>
                         <div className="mb-4 flex items-center justify-between gap-4"><p aria-live="polite">Image {selectedImage + 1} of {project.galleryImages.length}</p><button type="button" onClick={() => setSelectedImage(null)} className="rounded border border-white/50 px-3 py-2" aria-label="Close image viewer">Close</button></div>
-                        <img src={project.galleryImages[selectedImage].src} alt={project.galleryImages[selectedImage].alt} className="mx-auto max-h-[65dvh] max-w-full object-contain" />
+                        <ContentImage src={project.galleryImages[selectedImage].src} alt={project.galleryImages[selectedImage].alt} loading="eager" frameClassName="relative w-full min-h-32" className="mx-auto max-h-[65dvh] max-w-full object-contain" />
                         <div className="mt-4 flex justify-between gap-4"><button type="button" className="rounded border px-3 py-2" onClick={() => setSelectedImage((selectedImage - 1 + project.galleryImages.length) % project.galleryImages.length)}>Previous image</button><button type="button" className="rounded border px-3 py-2" onClick={() => setSelectedImage((selectedImage + 1) % project.galleryImages.length)}>Next image</button></div>
                     </div>
                 </Dialog>

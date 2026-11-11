@@ -2,12 +2,13 @@ import React from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle } from "lucide-react";
 import heroBg from "../../content/pages/home/herobg_lg.webp";
+import ContentImage from "../ContentImage";
 
 const Hero: React.FC = () => {
     return (
         <section className="relative w-full h-[100svh] min-h-[500px] flex items-start justify-start overflow-hidden text-eggshell-white px-0 sm:px-6">
             <div className="absolute inset-0 z-0 w-full h-full">
-                <img
+                <ContentImage
                     src={heroBg}
                     alt="Lush landscape"
                     className="w-full h-full object-cover select-none pointer-events-none"

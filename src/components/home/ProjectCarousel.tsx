@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import ContentImage from "../ContentImage";
 
 
 import ap1 from "../../content/projects/arpanbhai/ap1_lg.webp";
@@ -151,11 +152,11 @@ const ProjectCarousel: React.FC = () => {
                                 <div className="w-full h-full relative group">
                                     {isActive ? <Link to={`/projects/${project.id}`} aria-label={`View ${project.title}`} className="absolute inset-0 z-10" /> : <button type="button" aria-label={`Show ${project.title}`} tabIndex={-1} className="absolute inset-0 z-10" onClick={() => setActiveIndex(index)} />}
 
-                                    <img
+                                    <ContentImage
                                         src={project.image}
                                         alt={`${project.title} - ${project.category} project showcasing ${project.outcome}`}
                                         className={`w-full h-full object-cover transition-all duration-700 ease-in-out`}
-                                        loading="lazy"
+                                        loading={distance <= 1 ? 'eager' : 'lazy'}
                                         decoding="async"
                                         style={{
                                             // Force GPU acceleration for image

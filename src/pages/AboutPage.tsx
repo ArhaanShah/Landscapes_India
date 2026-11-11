@@ -4,6 +4,7 @@ import type { Variants } from "framer-motion";
 import { ArrowRight, Compass, Leaf, Milestone, Layers } from "lucide-react";
 import Navbar from "../components/home/Navbar";
 import Footer from "../components/home/Footer";
+import ContentImage from "../components/ContentImage";
 
 // Import Assets
 import leafTexture from "../content/pages/contact/leaftexture.png";
@@ -41,7 +42,7 @@ const AboutPage: React.FC = () => {
         
         {/* Background Texture Overlay (3% Opacity Leaf Texture) */}
         <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.04] mix-blend-multiply">
-          <img 
+          <ContentImage
             src={leafTexture} 
             alt="" 
             className="w-full h-full object-cover" 
@@ -119,11 +120,11 @@ const AboutPage: React.FC = () => {
             >
               {/* Back Project Banner Image Card */}
               <div className="w-11/12 lg:w-10/12 mr-auto aspect-[4/3] rounded-3xl border border-dark-spruce/10 overflow-hidden shadow-2xl bg-ash-grey/30 relative group">
-                <img 
+                <ContentImage
                   src={aboutBanner} 
                   alt="Premium modern landscape design featuring reflection pool" 
                   className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                  loading="lazy"
+                  loading="eager"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-dark-spruce/40 via-transparent to-transparent opacity-60"></div>
               </div>
@@ -135,7 +136,7 @@ const AboutPage: React.FC = () => {
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
                 <div className="aspect-[4/5] rounded-xl overflow-hidden bg-eggshell-white border border-dark-spruce/5">
-                  <img 
+                  <ContentImage
                     src={founderPlaceholder} 
                     alt="Abhija Dalal Portrait Placeholder" 
                     className="w-full h-full object-cover" 
@@ -248,9 +249,10 @@ const AboutPage: React.FC = () => {
                 variants={itemVariants}
                 whileHover={{ y: -6 }}
               >
-                <img 
+                <ContentImage
                   src={stoneMoss} 
                   alt="High-resolution slate pavers texture with green moss in joint lines" 
+                  frameClassName="absolute inset-0"
                   className="w-full h-full object-cover absolute inset-0 transition-transform duration-1000 group-hover:scale-105"
                   loading="lazy"
                 />

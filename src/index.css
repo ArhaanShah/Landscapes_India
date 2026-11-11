@@ -97,4 +97,13 @@
 #services, #contact { scroll-margin-top: 6rem; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+  /* These user-triggered hovers deliberately retain their original animation. */
+  .project-hover-image { transition-duration: 700ms !important; }
+  .contact-hover-image, .project-hover-overlay { transition-duration: 1000ms !important; }
 }
+
+.image-frame { display: block; }
+.image-frame[data-image-state="loading"],
+.image-frame[data-image-state="error"] { background-color: rgb(191 204 179 / 0.2); }
+.image-frame[data-image-state="error"] { min-height: 8rem; }
+.image-unavailable { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 1rem; background: #bfccb3; color: #22442b; font: 500 0.875rem/1.5 Inter, sans-serif; text-align: center; pointer-events: none; }
