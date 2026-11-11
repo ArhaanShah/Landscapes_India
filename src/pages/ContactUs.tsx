@@ -10,16 +10,16 @@ const ContactUs: React.FC = () => {
         <>
             <Navbar alwaysShown={true} />
             <main className="pt-32 pb-20 px-6 bg-eggshell-white min-h-screen" id="contact">
-            <div className="max-w-6xl mx-auto bg-white rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.12)] overflow-hidden flex flex-col lg:flex-row">
+            <div className="group/contact max-w-6xl mx-auto bg-white rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.12)] overflow-hidden flex flex-col lg:flex-row">
 
-                <div className="relative lg:w-5/12 w-full bg-[#1b4d3e] overflow-hidden flex flex-col justify-between p-8 text-white group">
+                <div className="relative lg:w-5/12 w-full bg-[#1b4d3e] overflow-hidden flex flex-col justify-between p-8 text-white">
                     <div className="absolute inset-0 z-0">
                         <img 
                             src={leafTexture} 
                             alt="Lush tropical leaves" 
-                            className="w-full h-full object-cover opacity-30 mix-blend-overlay transition-transform duration-1000 group-hover:scale-105"
+                            className="w-full h-full object-cover opacity-70 transition-transform duration-700 ease-out motion-safe:group-hover/contact:scale-105 motion-safe:group-focus-within/contact:scale-105"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-b from-[#1b4d3e]/90 via-[#1b4d3e]/80 to-[#1b4d3e]/95"></div>
+                        <div className="absolute inset-0 bg-gradient-to-b from-[#1b4d3e]/80 via-[#1b4d3e]/60 to-[#1b4d3e]/85"></div>
                     </div>
                     
                     <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>

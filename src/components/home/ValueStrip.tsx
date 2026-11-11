@@ -27,10 +27,11 @@ const ValueStrip: React.FC = () => {
                 <div className="flex gap-8 w-full overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-ash-grey scrollbar-track-transparent md:justify-center">
                     {values.map((val, index) => (
                         <motion.div
-                            className="flex-1 min-w-[280px] bg-white p-10 rounded-3xl shadow-[0_10px_30px_rgba(0,0,0,0.05)] flex flex-col items-start gap-4 border border-transparent hover:-translate-y-1 hover:border-dusty-olive transition-all duration-300 snap-center"
+                            className="flex-1 min-w-[280px] bg-white p-10 rounded-3xl shadow-[0_10px_30px_rgba(0,0,0,0.05)] flex flex-col items-start gap-4 border border-transparent hover:border-dusty-olive transition-[border-color,box-shadow] duration-300 snap-center"
                             key={index}
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
+                            whileHover={{ y: -4 }}
                             viewport={{ once: true }}
                             transition={{ delay: index * 0.1, duration: 0.5 }}
                         >

@@ -217,7 +217,7 @@ const AboutPage: React.FC = () => {
 
               {/* Card 2: Organic Fluidity */}
               <motion.div 
-                className="lg:col-span-5 bg-dark-spruce text-eggshell-white rounded-3xl p-8 md:p-10 border border-white/5 flex flex-col justify-between shadow-lg relative overflow-hidden group hover:shadow-2xl transition-all duration-300"
+                className="lg:col-span-5 bg-dark-spruce text-eggshell-white rounded-3xl p-8 md:p-10 border border-white/5 flex flex-col justify-between shadow-lg relative overflow-hidden group hover:shadow-2xl transition-shadow duration-300"
                 variants={itemVariants}
                 whileHover={{ y: -6 }}
               >

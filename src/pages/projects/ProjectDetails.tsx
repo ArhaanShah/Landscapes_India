@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, MapPin, Calendar, Ruler, Users } from 'lucide-react';
@@ -11,10 +11,6 @@ const ProjectDetails: React.FC = () => {
     const { projectId } = useParams<{ projectId: string }>();
     const navigate = useNavigate();
     const [selectedImage, setSelectedImage] = useState<number | null>(null);
-
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
 
     const project = projects.find((p) => p.id === projectId);
 

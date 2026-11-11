@@ -1,14 +1,12 @@
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLayoutEffect } from "react";
 
-export default function ScrollToTop() {
-  const { pathname, hash } = useLocation();
-
-  useEffect(() => {
+export default function ScrollToTop({ pathname, hash }: { pathname: string; hash: string }) {
+  // The exiting page keeps its own location until its fade has finished.
+  useLayoutEffect(() => {
     if (hash) {
-      document.getElementById(hash.slice(1))?.scrollIntoView();
+      document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: 'instant' });
     } else {
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     }
   }, [pathname, hash]);
 

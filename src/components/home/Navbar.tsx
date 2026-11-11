@@ -23,7 +23,7 @@ export default function Navbar({ alwaysShown = false }: { alwaysShown?: boolean 
     }, []);
 
     return <>
-        <motion.nav aria-label="Main navigation" className={`fixed top-0 left-0 z-50 w-full px-6 transition-all duration-300 ${isScrolled || alwaysShown ? 'border-b border-dark-spruce/5 bg-eggshell-white/95 py-3 shadow-sm backdrop-blur-md' : 'bg-transparent py-6'}`} initial={alwaysShown ? false : { y: -100 }} animate={{ y: 0 }}>
+        <motion.nav aria-label="Main navigation" className={`fixed top-0 left-0 z-50 w-full px-6 transition-[background-color,padding,box-shadow,border-color,backdrop-filter] duration-300 ${isScrolled || alwaysShown ? 'border-b border-dark-spruce/5 bg-eggshell-white/95 py-3 shadow-sm backdrop-blur-md' : 'bg-transparent py-6'}`} initial={alwaysShown ? false : { y: -100 }} animate={{ y: 0 }}>
             <div className="mx-auto flex max-w-7xl items-center justify-between">
                 <Link to="/" className="flex items-center gap-3"><img src={logo} alt="Landscapes India" className="h-10 w-auto" /><span className="hidden font-serif text-xl font-bold md:block">Landscapes India</span></Link>
                 <div className="hidden gap-10 md:flex">{links.map(link => <NavLink key={link.href} to={link.href} className={({ isActive }) => `font-semibold ${isActive ? 'underline underline-offset-8' : 'text-dark-spruce/80 hover:text-dark-spruce'}`}>{link.name}</NavLink>)}</div>

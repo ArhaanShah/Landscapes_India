@@ -29,7 +29,7 @@ npx playwright install chromium
 npm run test:e2e
 ```
 
-Browser tests cover desktop/mobile navigation, galleries, responsive layout, and configured/unconfigured forms. Requests to the test Formspree endpoint are mocked. Dedicated test builds are stored in `.test-dist/`; production output is `dist/`.
+Browser tests cover desktop/mobile navigation, galleries, responsive layout, configured/unconfigured forms, project and contact hovers, and page fades with normal and reduced motion. Requests to the test Formspree endpoint are mocked. Dedicated test builds are stored in `.test-dist/`; production output is `dist/`.
 
 GitHub Actions repeats the checks on a clean Linux checkout. WebP project photos must be included in Git; local JPEG originals are ignored. `src/data/projects.ts` supplies project data, and `src/components/InquiryForm.tsx` supplies both forms.
 

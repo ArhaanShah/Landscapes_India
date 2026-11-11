@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import gsap from 'gsap';
@@ -11,79 +11,57 @@ import { Link } from 'react-router-dom';
 const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, index }) => {
     const reduceMotion = useReducedMotion();
     const cardRef = useRef<HTMLDivElement | null>(null);
-    const timelineRef = useRef<gsap.core.Timeline | null>(null);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const card = cardRef.current;
         if (!card || reduceMotion) return;
 
-        const cardPaths = Array.from(card.querySelectorAll<SVGPathElement>('.project-svg-stroke path'));
-
-        cardPaths.forEach((path) => {
-            const length = path.getTotalLength();
-            path.style.strokeDasharray = `${length}`;
-            path.style.strokeDashoffset = `${length}`;
-        });
-
-        const playEnterAnimation = () => {
-            timelineRef.current?.kill();
-            const tl = gsap.timeline();
-
-            cardPaths.forEach((path) => {
-                tl.to(
-                    path,
-                    {
-                        strokeDashoffset: 0,
-                        attr: { 'stroke-width': 700 },
-                        duration: 1.5,
-                        ease: 'power2.out',
-                    },
-                    0
-                );
-            });
-
-            timelineRef.current = tl;
-        };
-
-        const playLeaveAnimation = () => {
-            timelineRef.current?.kill();
-            const tl = gsap.timeline();
-
+        const context = gsap.context(() => {
+            const cardPaths = Array.from(card.querySelectorAll<SVGPathElement>('.project-svg-stroke path'));
             cardPaths.forEach((path) => {
                 const length = path.getTotalLength();
-                tl.to(
-                    path,
-                    {
-                        strokeDashoffset: length,
-                        attr: { 'stroke-width': 200 },
-                        duration: 1,
-                        ease: 'power2.out',
-                    },
-                    0
-                );
+                gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
+            });
+            // Reveal the layers only after their strokes are initialized.
+            gsap.set('.project-svg-stroke', { opacity: 0.18 });
+            const timeline = gsap.timeline({ paused: true }).to(cardPaths, {
+                strokeDashoffset: 0,
+                attr: { 'stroke-width': 700 },
+                duration: 1.1,
+                ease: 'power2.out',
             });
 
-            timelineRef.current = tl;
-        };
+            // Reversing one timeline keeps rapid hover changes continuous.
+            const enter = () => { timeline.timeScale(1).play(); };
+            const leave = () => {
+                if (!card.contains(document.activeElement)) timeline.timeScale(1.25).reverse();
+            };
+            const blur = (event: FocusEvent) => {
+                if (!card.matches(':hover') && !card.contains(event.relatedTarget as Node | null)) {
+                    timeline.timeScale(1.25).reverse();
+                }
+            };
+            card.addEventListener('mouseenter', enter);
+            card.addEventListener('mouseleave', leave);
+            card.addEventListener('focusin', enter);
+            card.addEventListener('focusout', blur);
 
-        card.addEventListener('mouseenter', playEnterAnimation);
-        card.addEventListener('mouseleave', playLeaveAnimation);
-        card.addEventListener('focusin', playEnterAnimation);
-        card.addEventListener('focusout', playLeaveAnimation);
+            return () => {
+                card.removeEventListener('mouseenter', enter);
+                card.removeEventListener('mouseleave', leave);
+                card.removeEventListener('focusin', enter);
+                card.removeEventListener('focusout', blur);
+            };
+        }, card);
 
-        return () => {
-            timelineRef.current?.kill();
-            card.removeEventListener('mouseenter', playEnterAnimation);
-            card.removeEventListener('mouseleave', playLeaveAnimation);
-            card.removeEventListener('focusin', playEnterAnimation);
-            card.removeEventListener('focusout', playLeaveAnimation);
-        };
+        return () => context.revert();
     }, [reduceMotion]);
 
     const secondSvgColor = project.secondSvgColor || 'text-dark-spruce';
 
     return (
         <motion.div
+            ref={cardRef}
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
@@ -91,24 +69,23 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
             className={`group flex flex-col ${index % 2 !== 0 ? 'md:mt-24' : ''}`}
         >
             <div
-                ref={cardRef}
                 className="relative overflow-hidden rounded-sm aspect-[4/3] mb-6 cursor-pointer"
             >
                 <Link
                     to={`/projects/${project.id}`}
                     className="block h-full w-full"
                 >
-                    <div className="absolute inset-0 bg-dark-spruce/0 group-hover:bg-dark-spruce/100 transition-colors duration-1000 z-10" />
+                    <div className="absolute inset-0 bg-dark-spruce/0 group-hover:bg-dark-spruce/20 group-focus-within:bg-dark-spruce/20 transition-colors duration-1000 z-10 motion-reduce:hidden" />
                     <img
                         src={project.imageUrl}
                         alt={project.title}
-                        className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
+                        className="w-full h-full object-cover motion-safe:group-hover:scale-105 motion-safe:group-focus-within:scale-105 transition-transform duration-700 ease-out"
                         loading="lazy"
                     />
 
                     <div
                         aria-hidden="true"
-                        className={`project-svg-stroke motion-reduce:hidden pointer-events-none absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 scale-150 ${secondSvgColor}`}
+                        className={`project-svg-stroke opacity-0 z-20 motion-reduce:hidden pointer-events-none absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 scale-150 ${secondSvgColor}`}
                     >
                         <svg width="2250" height="2535" viewBox="0 0 2250 2535" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-full w-full">
                             <path
@@ -122,7 +99,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
 
                     <div
                         aria-hidden="true"
-                        className={`project-svg-stroke motion-reduce:hidden pointer-events-none absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 scale-[1.6] text-eggshell-white/100`}
+                        className="project-svg-stroke opacity-0 z-20 motion-reduce:hidden pointer-events-none absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 scale-[1.6] text-eggshell-white/100"
                     >
                         <svg width="2453" height="2273" viewBox="0 0 2453 2273" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-full w-full">
                             <path
@@ -162,11 +139,6 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
 };
 
 const ProjectsPage: React.FC = () => {
-    // Scroll to top on mount
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
-
     return (
         <div className="bg-eggshell-white min-h-screen flex flex-col">
             <Navbar alwaysShown={true} />
