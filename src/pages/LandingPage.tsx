@@ -13,6 +13,7 @@ const LandingPage: React.FC = () => {
     return (
         <div className="min-h-screen bg-eggshell-white text-dark-spruce font-sans">
             <Navbar />
+            <main id="main-content">
             <Hero />
             <ValueStrip />
             <ProjectCarousel />
@@ -20,6 +21,7 @@ const LandingPage: React.FC = () => {
             <BeforeAfterSlider />
             <Testimonials />
             <LeadMagnet />
+            </main>
             <Footer />
         </div>
     );

@@ -5,7 +5,7 @@ import heroBg from "../../content/pages/home/herobg_lg.webp";
 
 const Hero: React.FC = () => {
     return (
-        <section className="relative w-full h-[100vh] min-h-[500px] flex items-start justify-start overflow-hidden text-eggshell-white px-0 sm:px-6">
+        <section className="relative w-full h-[100svh] min-h-[500px] flex items-start justify-start overflow-hidden text-eggshell-white px-0 sm:px-6">
             <div className="absolute inset-0 z-0 w-full h-full">
                 <img
                     src={heroBg}
@@ -25,7 +25,7 @@ const Hero: React.FC = () => {
                 }}
             />
 
-            <div className="max-w-[550px] z-10 flex flex-col items-start gap-6 text-left px-6 sm:px-8 pt-32 ml-4 sm:ml-12 md:ml-16">
+            <div className="max-w-[550px] z-10 flex flex-col items-start gap-6 text-left px-6 sm:px-8 pt-32 ml-0 sm:ml-12 md:ml-16">
                 <motion.div
                     initial={{ opacity: 0, y: 30, rotateZ: -2.5  }}
                     animate={{ opacity: 1, y: 0, rotateZ: -2.5 }}
@@ -38,7 +38,7 @@ const Hero: React.FC = () => {
                 >
                     <div className="relative inline-block mb-[2rem]">
                         <div className="absolute inset-[-14px] sm:inset-[-18px] bg-dark-spruce/55 blur-3xl rounded-[28px] -z-10 pointer-events-none" />
-                        <h1 className="inline-flex items-baseline sm:whitespace-nowrap leading-[1.05] drop-shadow-lg">
+                        <h1 className="inline-flex flex-wrap items-baseline leading-[1.05] drop-shadow-lg">
                             <span className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl lg:mt-1 2xl:mt-3 tracking-[0.01em] text-white uppercase mr-2 md:mr-3" style={{ fontFamily: '"Chicle", sans-serif' }}>
                                 Your home,
                             </span>

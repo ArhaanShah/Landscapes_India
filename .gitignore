@@ -7,7 +7,9 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-src/content/projects
+src/content/projects/**/*.jpg
+src/content/projects/**/*.JPG
+src/content/projects/**/*.txt
 
 
 node_modules
@@ -31,3 +33,10 @@ dist-ssr
 *.sw?
 
 .early.coverage
+.env.*
+!.env.example
+.vercel/
+playwright-report/
+test-results/
+
+.test-dist/

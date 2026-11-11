@@ -1,110 +1,40 @@
-# Landscapes India Website
+# Landscapes India
 
-A responsive marketing website for a landscaping and outdoor design business.
+A personal landscape design portfolio demo built with React 19, TypeScript, Vite, Tailwind CSS, Framer Motion, and GSAP.
 
-The project focuses on showcasing featured landscape projects, explaining the design/build process, and converting visitors through a contact flow.
+## Development
 
-## Highlights
+Use Node.js 24 and npm:
 
-- Landing page with modular sections (hero, value strip, projects carousel, process timeline, testimonials, CTA)
-- Projects listing and project detail pages
-- Contact page with a validated inquiry form UI
-- Mobile-first responsive layout using Tailwind CSS
-- React Router based navigation with scroll-to-top behavior
-
-## Tech Stack
-
-- React 19
-- TypeScript
-- Vite
-- Tailwind CSS
-- React Router
-- Framer Motion
-- Lucide React icons
-- ESLint
-
-## Routes
-
-- `/` → Landing page
-- `/projects` → Projects listing
-- `/projects/:projectId` → Project details
-- `/contact` → Contact & inquiry form
-
-## Project Structure
-
-```text
-Landscapes_India/
-├─ docs/                         # Architecture, setup notes, design references, user stories
-├─ src/
-│  ├─ components/
-│  │  └─ home/                   # Home page section components
-│  ├─ content/                   # Static content assets by page
-│  ├─ data/                      # Data models (e.g., projects)
-│  ├─ pages/                     # Route-level pages
-│  ├─ App.tsx                    # App routes
-│  └─ main.tsx                   # App entrypoint
-├─ index.html
-├─ tailwind.config.js
-├─ vite.config.ts
-└─ package.json
-```
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 18+ (LTS recommended)
-- npm 9+
-
-### Install
-
-```bash
-npm install
-```
-
-### Run locally
-
-```bash
+```sh
+npm ci
 npm run dev
 ```
 
-Open the local URL shown in terminal (typically `http://localhost:5173`).
+Routes: `/`, `/projects`, `/projects/:projectId`, `/about`, and `/contact`. Unknown URLs show a fallback page.
 
-## Available Scripts
+## Inquiry configuration
 
-- `npm run dev` — start development server
-- `npm run build` — type-check and create production build
-- `npm run preview` — preview production build locally
-- `npm run lint` — run ESLint checks
+Copy `.env.example` to `.env.local` and set `VITE_FORMSPREE_ENDPOINT` to your public Formspree form address. Restart Vite after editing it. Without a valid endpoint, both forms show direct contact alternatives and disable submission. Set the same variable in Vercel and rebuild when it changes. Never put a private key or password in a `VITE_` variable.
 
-## Editing Content
+Both forms validate input, prevent duplicate submissions, preserve entries on errors, and clear after service acceptance. The displayed email/phone details should belong to the person receiving inquiries.
 
-- Home page composition: `src/pages/LandingPage.tsx`
-- Contact page form UI/validation: `src/pages/ContactUs.tsx`
-- Project data source: `src/data/projects.ts`
-- Home section components: `src/components/home/*`
+## Checks
 
-If you are adding new projects, keep slugs and IDs stable to avoid breaking project detail links.
+```sh
+npm run check:assets
+npm run lint
+npm run build
+npx playwright install chromium
+npm run test:e2e
+```
 
-## Roadmap (from product docs)
+Browser tests cover desktop/mobile navigation, galleries, responsive layout, and configured/unconfigured forms. Requests to the test Formspree endpoint are mocked. Dedicated test builds are stored in `.test-dist/`; production output is `dist/`.
 
-- Sprint 1 (MVP): launch-ready static site with landing, projects, project details, about/contact, and inquiry flow
-- Sprint 2: CMS-ready content structure, spam protection, SEO basics, analytics, media optimization
-- Sprint 3: CMS integration, access control, media management, backups/audit support
-- Sprint 4: performance tuning, cross-browser QA, automated tests, stronger loading/error states
+GitHub Actions repeats the checks on a clean Linux checkout. WebP project photos must be included in Git; local JPEG originals are ignored. `src/data/projects.ts` supplies project data, and `src/components/InquiryForm.tsx` supplies both forms.
 
 ## Deployment
 
-This project builds as a static site.
+The repository includes Vercel settings for Vite, reproducible installs, and SPA deep links. See [deployment and Orderbox DNS instructions](docs/Deployment.md) for account setup, Formspree activation, deployment validation, and safe custom-domain configuration.
 
-```bash
-npm run build
-```
-
-Deploy the generated `dist/` folder to your static hosting provider (for example: Vercel, Netlify, Cloudflare Pages, or S3 + CDN).
-
-## Notes
-
-- Current contact form submission is front-end only (ready for backend/email integration).
-- Keep visual tokens and styles consistent with the existing Tailwind/theme setup.
-
+This is a personal hobby demo with clearly labelled sample content. Vercel Hobby is restricted to non-commercial use. No backend, database, or paid subscription is required.

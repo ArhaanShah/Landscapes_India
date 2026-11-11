@@ -89,3 +89,12 @@
 
 
 
+
+/* Native dialogs provide focus containment and isolate background interaction. */
+.app-dialog { margin: auto; padding: 0; border: 0; max-width: calc(100vw - 2rem); max-height: calc(100dvh - 2rem); }
+.app-dialog::backdrop { background: rgb(0 0 0 / 0.8); }
+:focus-visible { outline: 3px solid #b9442f; outline-offset: 4px; }
+#services, #contact { scroll-margin-top: 6rem; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}

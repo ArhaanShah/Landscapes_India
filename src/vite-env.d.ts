@@ -5,3 +5,7 @@ declare module "*.JPG" {
     export default value;
 }
 
+
+interface ImportMetaEnv {
+    readonly VITE_FORMSPREE_ENDPOINT?: string;
+}

@@ -22,7 +22,7 @@ const ValueStrip: React.FC = () => {
     ];
 
     return (
-        <section className="py-20 px-6 bg-eggshell-white border-b border-ash-grey/50">
+        <section id="services" className="py-20 px-6 bg-eggshell-white border-b border-ash-grey/50">
             <div className="max-w-7xl mx-auto flex flex-col items-center gap-12">
                 <div className="flex gap-8 w-full overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-ash-grey scrollbar-track-transparent md:justify-center">
                     {values.map((val, index) => (

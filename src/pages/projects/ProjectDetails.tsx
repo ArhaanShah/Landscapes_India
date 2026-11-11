@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, MapPin, Calendar, Ruler, Users } from 'lucide-react';
 import Navbar from '../../components/home/Navbar';
 import Footer from '../../components/home/Footer';
+import Dialog from '../../components/Dialog';
 import { projects } from '../../data/projects';
 
 const ProjectDetails: React.FC = () => {
     const { projectId } = useParams<{ projectId: string }>();
     const navigate = useNavigate();
-    const [selectedImage, setSelectedImage] = useState<string | null>(null);
+    const [selectedImage, setSelectedImage] = useState<number | null>(null);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -44,15 +45,15 @@ const ProjectDetails: React.FC = () => {
         // Create varied layouts based on image count
         if (total <= 3) return 'col-span-1 row-span-1';
         if (total <= 6) {
-            if (index === 0) return 'col-span-2 row-span-1 md:col-span-2';
+            if (index === 0) return 'col-span-1 sm:col-span-2 row-span-1';
             if (index === 1) return 'col-span-1';
             if (index === 2) return 'col-span-1';
             return 'col-span-1';
         }
         
         // For 7+ images
-        if (index === 0) return 'col-span-2 row-span-2 md:col-span-2 md:row-span-2';
-        if (index === 1) return 'col-span-1 row-span-2 md:row-span-2';
+        if (index === 0) return 'col-span-1 sm:col-span-2 md:row-span-2';
+        if (index === 1) return 'col-span-1 md:row-span-2';
         return 'col-span-1';
     };
 
@@ -105,7 +106,7 @@ const ProjectDetails: React.FC = () => {
                             <span className="inline-block font-inter text-sm font-medium text-tomato-red uppercase tracking-wider mb-4">
                                 {project.category}
                             </span>
-                            <h1 className="font-serif text-6xl md:text-7xl text-dark-spruce mb-6 leading-tight">
+                            <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl text-dark-spruce mb-6 leading-tight">
                                 {project.title}
                             </h1>
                             <p className="font-inter text-lg text-dark-spruce/70 leading-relaxed mb-8 max-w-xl">
@@ -154,12 +155,15 @@ const ProjectDetails: React.FC = () => {
                         </div>
 
                         {/* Right Column - Featured Image */}
-                        <motion.div
+                        <motion.button
+                            type="button"
+                            aria-label={`Open ${project.title} featured image`}
+                            disabled={!project.galleryImages.length}
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 0.8, delay: 0.2 }}
                             className="relative group cursor-pointer rounded-sm overflow-hidden aspect-square"
-                            onClick={() => setSelectedImage(project.galleryImages[0]?.src)}
+                            onClick={() => setSelectedImage(0)}
                         >
                             <div className="absolute inset-0 bg-dark-spruce/0 group-hover:bg-dark-spruce/10 transition-colors duration-500 z-10" />
                             <img
@@ -167,7 +171,7 @@ const ProjectDetails: React.FC = () => {
                                 alt={project.title}
                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                             />
-                        </motion.div>
+                        </motion.button>
                     </div>
                 </motion.div>
 
@@ -192,11 +196,13 @@ const ProjectDetails: React.FC = () => {
                         variants={containerVariants}
                     >
                         {project.galleryImages.map((image, index) => (
-                            <motion.div
+                            <motion.button
+                                type="button"
+                                aria-label={`Open ${project.title} gallery image ${index + 1}`}
                                 key={index}
                                 className={`group relative overflow-hidden rounded-sm cursor-pointer ${getGridClass(index)}`}
                                 variants={itemVariants}
-                                onClick={() => setSelectedImage(image.src)}
+                                onClick={() => setSelectedImage(index)}
                                 whileHover={{ scale: 1.02 }}
                                 transition={{ duration: 0.3 }}
                             >
@@ -212,7 +218,7 @@ const ProjectDetails: React.FC = () => {
                                         <span className="text-white text-lg">+</span>
                                     </div>
                                 </div>
-                            </motion.div>
+                            </motion.button>
                         ))}
                     </motion.div>
                 </motion.div>
@@ -232,12 +238,12 @@ const ProjectDetails: React.FC = () => {
                         Let's discuss how we can transform your outdoor space into a beautiful landscape that reflects your vision.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <a
-                            href="/contact"
+                        <Link
+                            to="/contact"
                             className="inline-block px-8 py-3 bg-dusty-olive text-eggshell-white font-inter font-medium rounded-sm hover:bg-dark-spruce transition-colors duration-300"
                         >
                             Start Your Project
-                        </a>
+                        </Link>
                         <button
                             onClick={() => navigate('/projects')}
                             className="inline-block px-8 py-3 border-2 border-dark-spruce text-dark-spruce font-inter font-medium rounded-sm hover:bg-dark-spruce hover:text-eggshell-white transition-colors duration-300"
@@ -249,36 +255,20 @@ const ProjectDetails: React.FC = () => {
             </main>
 
             {/* Image Modal */}
-            {selectedImage && (
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    onClick={() => setSelectedImage(null)}
-                    className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
-                >
-                    <motion.div
-                        initial={{ scale: 0.9 }}
-                        animate={{ scale: 1 }}
-                        transition={{ duration: 0.3 }}
-                        className="relative max-w-4xl max-h-[80vh]"
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <button
-                            onClick={() => setSelectedImage(null)}
-                            className="absolute -top-10 right-0 text-white hover:text-ash-grey transition-colors z-10"
-                        >
-                            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                        <img
-                            src={selectedImage}
-                            alt="Full size"
-                            className="w-full h-full object-contain"
-                        />
-                    </motion.div>
-                </motion.div>
+            {selectedImage !== null && project.galleryImages[selectedImage] && (
+                <Dialog label={`${project.title} image viewer`} onClose={() => setSelectedImage(null)} className="w-full max-w-5xl bg-dark-spruce text-white rounded-lg">
+                    <div className="p-4" onKeyDown={(event) => {
+                        if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+                            event.preventDefault();
+                            const step = event.key === 'ArrowLeft' ? -1 : 1;
+                            setSelectedImage((selectedImage + step + project.galleryImages.length) % project.galleryImages.length);
+                        }
+                    }}>
+                        <div className="mb-4 flex items-center justify-between gap-4"><p aria-live="polite">Image {selectedImage + 1} of {project.galleryImages.length}</p><button type="button" onClick={() => setSelectedImage(null)} className="rounded border border-white/50 px-3 py-2" aria-label="Close image viewer">Close</button></div>
+                        <img src={project.galleryImages[selectedImage].src} alt={project.galleryImages[selectedImage].alt} className="mx-auto max-h-[65dvh] max-w-full object-contain" />
+                        <div className="mt-4 flex justify-between gap-4"><button type="button" className="rounded border px-3 py-2" onClick={() => setSelectedImage((selectedImage - 1 + project.galleryImages.length) % project.galleryImages.length)}>Previous image</button><button type="button" className="rounded border px-3 py-2" onClick={() => setSelectedImage((selectedImage + 1) % project.galleryImages.length)}>Next image</button></div>
+                    </div>
+                </Dialog>
             )}
 
             <Footer />

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Quote } from "lucide-react";
 
 const Testimonials: React.FC = () => {
@@ -25,22 +25,28 @@ const Testimonials: React.FC = () => {
     ];
 
     const [current, setCurrent] = useState(0);
+    const [paused, setPaused] = useState(false);
+    const reduceMotion = useReducedMotion();
 
     useEffect(() => {
+        if (paused || reduceMotion) return;
         const timer = setInterval(() => {
             setCurrent((prev) => (prev + 1) % testimonials.length);
         }, 5000);
         return () => clearInterval(timer);
-    }, [testimonials.length]);
+    }, [testimonials.length, paused, reduceMotion]);
 
     return (
         <section className="py-20 px-6 bg-dark-spruce text-eggshell-white text-center">
             <div className="max-w-4xl mx-auto flex flex-col items-center">
+                <h2 className="mb-4 text-2xl text-white">Sample testimonials</h2>
+                <p className="mb-6 text-sm text-white/70">Illustrative demo quotes, not verified customer reviews.</p>
+                <button type="button" disabled={Boolean(reduceMotion)} className="mb-6 underline" onClick={() => setPaused(value => !value)}>{reduceMotion ? 'Automatic rotation off (reduced motion)' : paused ? 'Enable automatic rotation' : 'Pause automatic rotation'}</button>
                 <div className="mb-8 opacity-50">
                     <Quote size={48} className="text-ash-grey fill-current" />
                 </div>
 
-                <div className="min-h-[200px] w-full flex items-center justify-center">
+                <div aria-live={paused || reduceMotion ? "polite" : "off"} className="min-h-[200px] w-full flex items-center justify-center">
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={current}
@@ -63,8 +69,10 @@ const Testimonials: React.FC = () => {
                     {testimonials.map((_, idx) => (
                         <button
                             key={idx}
+                            aria-label={`Show sample testimonial ${idx + 1}`}
+                            aria-pressed={idx === current}
                             className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${idx === current ? "bg-tomato-red scale-125" : "bg-white/20 hover:bg-white/40"}`}
-                            onClick={() => setCurrent(idx)}
+                            onClick={() => { setCurrent(idx); setPaused(true); }}
                         />
                     ))}
                 </div>

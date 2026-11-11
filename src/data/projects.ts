@@ -1,64 +1,64 @@
 
 // Import cover images
-import aneriCover from '../content/projects/aneri/an1_lg.jpg';
-import arpanCover from '../content/projects/arpanbhai/ap1_lg.jpg';
-import kadambariCover from '../content/projects/kadambari/k1_lg.jpg';
-import ramvatikaCover from '../content/projects/ramvatika/rv1_lg.JPG';
-import jaybaugCover from '../content/projects/jay_baug/j1_lg.jpg';
-import tejCover from '../content/projects/tej/t1_lg.jpg';
-import arvindCover from '../content/projects/arvind_uplands/av1_lg.jpg';
+import aneriCover from '../content/projects/aneri/an1_lg.webp';
+import arpanCover from '../content/projects/arpanbhai/ap1_lg.webp';
+import kadambariCover from '../content/projects/kadambari/k1_lg.webp';
+import ramvatikaCover from '../content/projects/ramvatika/rv1_lg.webp';
+import jaybaugCover from '../content/projects/jay_baug/j1_lg.webp';
+import tejCover from '../content/projects/tej/t1_lg.webp';
+import arvindCover from '../content/projects/arvind_uplands/av1_lg.webp';
 
 // Import gallery images for Aneri
-import aneri1 from '../content/projects/aneri/an1_lg.jpg';
-import aneri2 from '../content/projects/aneri/an2_lg.jpg';
-import aneri3 from '../content/projects/aneri/an3_lg.jpg';
+import aneri1 from '../content/projects/aneri/an1_lg.webp';
+import aneri2 from '../content/projects/aneri/an2_lg.webp';
+import aneri3 from '../content/projects/aneri/an3_lg.webp';
 
 // Import gallery images for Arpanbhai
-import arpan1 from '../content/projects/arpanbhai/ap1_lg.jpg';
-import arpan2 from '../content/projects/arpanbhai/ap2_lg.jpg';
-import arpan3 from '../content/projects/arpanbhai/ap3_lg.jpg';
-import arpan4 from '../content/projects/arpanbhai/ap4_lg.jpg';
-import arpan5 from '../content/projects/arpanbhai/ap5_lg.jpg';
+import arpan1 from '../content/projects/arpanbhai/ap1_lg.webp';
+import arpan2 from '../content/projects/arpanbhai/ap2_lg.webp';
+import arpan3 from '../content/projects/arpanbhai/ap3_lg.webp';
+import arpan4 from '../content/projects/arpanbhai/ap4_lg.webp';
+import arpan5 from '../content/projects/arpanbhai/ap5_lg.webp';
 
 // Import gallery images for Kadambari
-import kadambari1 from '../content/projects/kadambari/k1_lg.jpg';
-import kadambari2 from '../content/projects/kadambari/k2_lg.jpg';
-import kadambari3 from '../content/projects/kadambari/k3_lg.jpg';
-import kadambari4 from '../content/projects/kadambari/k4_lg.jpg';
+import kadambari1 from '../content/projects/kadambari/k1_lg.webp';
+import kadambari2 from '../content/projects/kadambari/k2_lg.webp';
+import kadambari3 from '../content/projects/kadambari/k3_lg.webp';
+import kadambari4 from '../content/projects/kadambari/k4_lg.webp';
 
 // Import gallery images for Ramvatika
-import ramvatika1 from '../content/projects/ramvatika/rv1_lg.JPG';
-import ramvatika2 from '../content/projects/ramvatika/rv2_lg.JPG';
-import ramvatika3 from '../content/projects/ramvatika/rv3_lg.jpg';
-import ramvatika4 from '../content/projects/ramvatika/rv4_lg.jpg';
-import ramvatika5 from '../content/projects/ramvatika/rv5_lg.jpg';
-import ramvatika6 from '../content/projects/ramvatika/rv6_lg.jpg';
-import ramvatika7 from '../content/projects/ramvatika/rv7_lg.jpg';
-import ramvatika8 from '../content/projects/ramvatika/rv8_lg.jpg';
+import ramvatika1 from '../content/projects/ramvatika/rv1_lg.webp';
+import ramvatika2 from '../content/projects/ramvatika/rv2_lg.webp';
+import ramvatika3 from '../content/projects/ramvatika/rv3_lg.webp';
+import ramvatika4 from '../content/projects/ramvatika/rv4_lg.webp';
+import ramvatika5 from '../content/projects/ramvatika/rv5_lg.webp';
+import ramvatika6 from '../content/projects/ramvatika/rv6_lg.webp';
+import ramvatika7 from '../content/projects/ramvatika/rv7_lg.webp';
+import ramvatika8 from '../content/projects/ramvatika/rv8_lg.webp';
 
 // Import gallery images for Jay Baug
-import jaybaug1 from '../content/projects/jay_baug/j1_lg.jpg';
-import jaybaug2 from '../content/projects/jay_baug/j2_lg.jpg';
-import jaybaug3 from '../content/projects/jay_baug/j3_lg.jpg';
-import jaybaug4 from '../content/projects/jay_baug/j4_lg.jpg';
-import jaybaug5 from '../content/projects/jay_baug/j5_lg.jpg';
-import jaybaug6 from '../content/projects/jay_baug/j6_lg.jpg';
-import jaybaug7 from '../content/projects/jay_baug/j7_lg.jpg';
+import jaybaug1 from '../content/projects/jay_baug/j1_lg.webp';
+import jaybaug2 from '../content/projects/jay_baug/j2_lg.webp';
+import jaybaug3 from '../content/projects/jay_baug/j3_lg.webp';
+import jaybaug4 from '../content/projects/jay_baug/j4_lg.webp';
+import jaybaug5 from '../content/projects/jay_baug/j5_lg.webp';
+import jaybaug6 from '../content/projects/jay_baug/j6_lg.webp';
+import jaybaug7 from '../content/projects/jay_baug/j7_lg.webp';
 
 // Import gallery images for Tej
-import tej1 from '../content/projects/tej/t1_lg.jpg';
-import tej2 from '../content/projects/tej/t2_lg.jpg';
-import tej3 from '../content/projects/tej/t3_lg.jpg';
-import tej4 from '../content/projects/tej/t4_lg.jpg';
-import tej5 from '../content/projects/tej/t5_lg.jpg';
-import tej6 from '../content/projects/tej/t6_lg.jpg';
-import tej7 from '../content/projects/tej/t7_lg.jpg';
-import tej8 from '../content/projects/tej/t8_lg.jpg';
+import tej1 from '../content/projects/tej/t1_lg.webp';
+import tej2 from '../content/projects/tej/t2_lg.webp';
+import tej3 from '../content/projects/tej/t3_lg.webp';
+import tej4 from '../content/projects/tej/t4_lg.webp';
+import tej5 from '../content/projects/tej/t5_lg.webp';
+import tej6 from '../content/projects/tej/t6_lg.webp';
+import tej7 from '../content/projects/tej/t7_lg.webp';
+import tej8 from '../content/projects/tej/t8_lg.webp';
 
 // Import gallery images for Arvind Uplands
-import arvind1 from '../content/projects/arvind_uplands/av1_lg.jpg';
-import arvind2 from '../content/projects/arvind_uplands/av2_lg.jpg';
-import arvind3 from '../content/projects/arvind_uplands/av3_lg.jpg';
+import arvind1 from '../content/projects/arvind_uplands/av1_lg.webp';
+import arvind2 from '../content/projects/arvind_uplands/av2_lg.webp';
+import arvind3 from '../content/projects/arvind_uplands/av3_lg.webp';
 
 export interface GalleryImage {
     src: string;

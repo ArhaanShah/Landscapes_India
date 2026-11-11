@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import "../../index.css";
+import { Link } from "react-router-dom";
 
 
 import ap1 from "../../content/projects/arpanbhai/ap1_lg.webp";
@@ -12,35 +12,35 @@ import t1 from "../../content/projects/tej/t1_lg.webp";
 
 const projects = [
     {
-        id: 1,
+        id: 'arpanbhai',
         image: ap1,
         title: "Arpanbhai Residence",
         category: "Private Garden",
         outcome: "A quiet retreat nestled in nature.",
     },
     {
-        id: 2,
+        id: 'arvind_uplands',
         image: av2,
         title: "Arvind Uplands",
         category: "Community Park",
         outcome: "Bringing people together through open spaces.",
     },
     {
-        id: 3,
+        id: 'jay_baug',
         image: j1,
         title: "Jay Baug",
         category: "Farmhouse",
         outcome: "Expansive greens for weekend getaways.",
     },
     {
-        id: 4,
+        id: 'ramvatika',
         image: rv4,
         title: "Ramvatika",
         category: "Urban Landscape",
         outcome: "Modern serenity in the heart of the city.",
     },
     {
-        id: 5,
+        id: 'tej',
         image: t1,
         title: "Tej Residence",
         category: "Courtyard",
@@ -54,8 +54,7 @@ const ProjectCarousel: React.FC = () => {
     const [isMobile, setIsMobile] = useState<boolean>(typeof window !== "undefined" ? window.innerWidth < 768 : false);
     const [isScrolling, setIsScrolling] = useState(false);
 
-    const containerRef = useRef<HTMLDivElement>(null);
-    const isInView = useInView(containerRef, { margin: "-20% 0px -20% 0px" });
+    const reduceMotion = useReducedMotion();
 
     useEffect(() => {
         const onResize = () => setIsMobile(window.innerWidth < 768);
@@ -79,25 +78,6 @@ const ProjectCarousel: React.FC = () => {
         };
     }, []);
 
-    useEffect(() => {
-        if (!isInView) return;
-
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === "ArrowLeft") {
-                setActiveIndex((prev) => Math.max(0, prev - 1));
-            } else if (e.key === "ArrowRight") {
-                setActiveIndex((prev) => Math.min(projects.length - 1, prev + 1));
-            }
-        };
-
-        window.addEventListener("keydown", handleKeyDown);
-        return () => window.removeEventListener("keydown", handleKeyDown);
-    }, [isInView]);
-
-    const handleProjectClick = (index: number) => {
-        setActiveIndex(index);
-    };
-
     const handlePrev = (e: React.MouseEvent) => {
         e.stopPropagation();
         setActiveIndex((prev) => Math.max(0, prev - 1));
@@ -109,7 +89,13 @@ const ProjectCarousel: React.FC = () => {
     };
 
     return (
-        <section ref={containerRef} className="py-20 bg-dark-spruce overflow-visible" id="projects">
+        <section aria-label="Featured projects" aria-roledescription="carousel" tabIndex={0} onKeyDown={(event) => {
+            if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+                event.preventDefault();
+                event.currentTarget.focus();
+                setActiveIndex(previous => Math.max(0, Math.min(projects.length - 1, previous + (event.key === 'ArrowLeft' ? -1 : 1))));
+            }
+        }} className="relative isolate z-0 py-20 bg-dark-spruce overflow-hidden" id="projects">
             <div className="text-center mb-12 px-6">
                 <h2 className="font-serif text-4xl font-semibold text-eggshell-white mb-2">Featured Projects</h2>
                 <p className="font-sans text-dusty-olive text-lg">A glimpse into our recent work.</p>
@@ -134,9 +120,8 @@ const ProjectCarousel: React.FC = () => {
                         return (
                             <motion.div
                                 key={project.id}
-                                className={`absolute w-[400px] h-[400px] md:w-[520px] md:h-[520px] rounded-3xl overflow-hidden ${isScrolling ? "" : "glass-base glass-sheen"
+                                className={`absolute w-[min(80vw,400px)] aspect-square md:w-[520px] rounded-3xl overflow-hidden ${isScrolling ? "" : "glass-base glass-sheen"
                                     }`}
-                                onClick={() => !isActive && handleProjectClick(index)}
                                 initial={false}
                                 animate={{
                                     scale: isActive ? 1.0 : 0.75,
@@ -145,14 +130,14 @@ const ProjectCarousel: React.FC = () => {
                                     rotateY: isActive ? 0 : offset * -18,
                                     z: isActive ? 100 : -distance * 10,
                                 }}
-                                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                                transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 300, damping: 30 }}
                                 style={{
                                     transformStyle: "flat",
                                     transformOrigin: "50% 50%",
                                     willChange: "transform, opacity",
                                     cursor: "pointer",
                                     pointerEvents: "auto",
-                                    zIndex: isActive ? 700 : 50 - distance,
+                                    zIndex: isActive ? 10 : 5 - distance,
                                     position: "absolute",
 
                                     border: isScrolling ? "2.5px solid rgba(255, 255, 255, 0.1)" : "2.5px solid rgba(255, 255, 255, 0.25)",
@@ -164,6 +149,8 @@ const ProjectCarousel: React.FC = () => {
                                 }}
                             >
                                 <div className="w-full h-full relative group">
+                                    {isActive ? <Link to={`/projects/${project.id}`} aria-label={`View ${project.title}`} className="absolute inset-0 z-10" /> : <button type="button" aria-label={`Show ${project.title}`} tabIndex={-1} className="absolute inset-0 z-10" onClick={() => setActiveIndex(index)} />}
+
                                     <img
                                         src={project.image}
                                         alt={`${project.title} - ${project.category} project showcasing ${project.outcome}`}
@@ -177,31 +164,8 @@ const ProjectCarousel: React.FC = () => {
                                         }}
                                     />
 
-                                    {isActive && (
-                                        <>
-                                            {index > 0 && (
-                                                <button
-                                                    onClick={handlePrev}
-                                                    className="absolute top-4 left-4 z-50 p-2 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md border border-white/30 text-white transition-all duration-300 shadow-lg group/nav"
-                                                    aria-label="Previous project"
-                                                >
-                                                    <ChevronLeft className="w-6 h-6 group-hover/nav:-translate-x-0.5 transition-transform" />
-                                                </button>
-                                            )}
-                                            {index < projects.length - 1 && (
-                                                <button
-                                                    onClick={handleNext}
-                                                    className="absolute top-4 right-4 z-50 p-2 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md border border-white/30 text-white transition-all duration-300 shadow-lg group/nav"
-                                                    aria-label="Next project"
-                                                >
-                                                    <ChevronRight className="w-6 h-6 group-hover/nav:translate-x-0.5 transition-transform" />
-                                                </button>
-                                            )}
-                                        </>
-                                    )}
-
                                     <div
-                                        className={`absolute bottom-0 left-0 right-0 m-4 p-5 rounded-2xl text-white flex justify-between items-end transition-all duration-500 ${isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+                                        className={`pointer-events-none absolute bottom-0 left-0 right-0 m-4 p-5 rounded-2xl text-white flex justify-between items-end transition-all duration-500 ${isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
                                         style={{
                                             background: isScrolling ? "rgba(0, 0, 0, 0.55)" : "rgba(20, 24, 28, 0.35)",
                                             border: isScrolling ? "none" : "1px solid rgba(255, 255, 255, 0.28)",
@@ -221,6 +185,11 @@ const ProjectCarousel: React.FC = () => {
                         );
                     })}
                 </div>
+            </div>
+            <div className="flex items-center justify-center gap-4 px-6 text-white">
+                <button type="button" onClick={handlePrev} disabled={activeIndex === 0} aria-label="Previous project" className="rounded-full border border-white/50 p-3 disabled:opacity-40"><ChevronLeft aria-hidden="true" /></button>
+                <p aria-live="polite" aria-atomic="true" className="min-w-0 text-center text-sm">{projects[activeIndex].title}</p>
+                <button type="button" onClick={handleNext} disabled={activeIndex === projects.length - 1} aria-label="Next project" className="rounded-full border border-white/50 p-3 disabled:opacity-40"><ChevronRight aria-hidden="true" /></button>
             </div>
         </section>
     );

@@ -1,161 +1,46 @@
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Instagram, Mail, Phone, ArrowRight } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
-import logo from "../../assets/logo.png";
+import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import { Menu, X, Instagram, Mail, Phone, ArrowRight } from 'lucide-react';
+import { Link, NavLink } from 'react-router-dom';
+import Dialog from '../Dialog';
+import logo from '../../assets/logo.png';
 
-interface NavbarProps {
-  alwaysShown?: boolean;
-}
+const links = [{ name: 'Projects', href: '/projects' }, { name: 'About', href: '/about' }, { name: 'Contact', href: '/contact' }];
 
-const Navbar: React.FC<NavbarProps> = ({ alwaysShown = false }) => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const location = useLocation();
-  const currentPath = location.pathname;
+export default function Navbar({ alwaysShown = false }: { alwaysShown?: boolean }) {
+    const [isScrolled, setIsScrolled] = useState(() => window.scrollY > 50);
+    const [open, setOpen] = useState(false);
+    useEffect(() => {
+        const scroll = () => setIsScrolled(window.scrollY > 50);
+        window.addEventListener('scroll', scroll, { passive: true });
+        return () => window.removeEventListener('scroll', scroll);
+    }, []);
+    useEffect(() => {
+        const media = window.matchMedia('(min-width: 768px)');
+        const resize = () => { if (media.matches) setOpen(false); };
+        media.addEventListener('change', resize);
+        return () => media.removeEventListener('change', resize);
+    }, []);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const navLinks = [
-    { name: "Projects", href: "/projects", isExternal: true },
-    { name: "About", href: "/about", isExternal: true },
-    { name: "Contact", href: "/contact", isExternal: true },
-  ];
-
-  return (
-    <>
-      <motion.nav
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled || alwaysShown
-          ? "py-3 px-8 bg-eggshell-white/95 backdrop-blur-md shadow-sm border-b border-dark-spruce/5"
-          : "py-6 px-8 bg-transparent"
-          }`}
-        initial={alwaysShown ? { y: 0 } : { y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <Link to="/" className="flex items-center gap-3 cursor-pointer">
-            <img src={logo} alt="Landscapes India" className="h-10 w-auto" loading="lazy" decoding="async" />
-            <span className="hidden md:block font-serif font-bold text-xl text-dark-spruce">
-              Landscapes India
-            </span>
-          </Link>
-
-          <div className="hidden md:flex gap-10">
-            {navLinks.map((link) => {
-              const isActive = link.isExternal && (
-                currentPath === link.href || 
-                (link.href !== "/" && currentPath.startsWith(link.href))
-              );
-              
-              return link.isExternal ? (
-                <Link
-                  key={link.name}
-                  to={link.href}
-                  className={`font-sans font-semibold text-base relative group transition-colors duration-200 ${
-                    isActive ? "text-dark-spruce" : "text-dark-spruce/80 hover:text-dark-spruce"
-                  }`}
-                >
-                  {link.name}
-                  <span className={`absolute left-0 bottom-[-4px] h-0.5 bg-dark-spruce transition-all duration-300 ${
-                    isActive ? "w-full" : "w-0 group-hover:w-full"
-                  }`}></span>
-                </Link>
-              ) : (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className="font-sans font-semibold text-dark-spruce/80 hover:text-dark-spruce text-base relative group transition-colors duration-200"
-                >
-                  {link.name}
-                  <span className="absolute left-0 bottom-[-4px] w-0 h-0.5 bg-dark-spruce transition-all duration-300 group-hover:w-full"></span>
-                </a>
-              );
-            })}
-          </div>
-
-          <div className="flex items-center gap-4">
-            <Link
-              to="/contact"
-              className="hidden md:flex items-center gap-2 bg-dark-spruce text-white py-2 px-6 rounded-full font-semibold text-sm hover:bg-tomato-red hover:shadow-[0_8px_24px_rgba(253,96,70,0.25)] transition-all duration-300"
-            >
-              Let's Talk <ArrowRight size={16} />
-            </Link>
-            <button
-              className="md:hidden block text-dark-spruce"
-              onClick={() => setMobileMenuOpen(true)}
-              aria-label="Open menu"
-            >
-              <Menu />
-            </button>
-          </div>
-        </div>
-      </motion.nav>
-
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            className="fixed inset-0 bg-eggshell-white z-[60] flex flex-col justify-center items-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <div className="w-full h-full p-6 flex flex-col items-center justify-center relative">
-              <button
-                className="absolute top-6 right-6 text-dark-spruce"
-                onClick={() => setMobileMenuOpen(false)}
-                aria-label="Close menu"
-              >
-                <X size={32} />
-              </button>
-              <div className="flex flex-col gap-8 items-center">
-                {navLinks.map((link) => {
-                  const isActive = link.isExternal && (
-                    currentPath === link.href || 
-                    (link.href !== "/" && currentPath.startsWith(link.href))
-                  );
-                  
-                  return link.isExternal ? (
-                    <Link
-                      key={link.name}
-                      to={link.href}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className={`font-serif text-3xl transition-colors duration-200 ${
-                        isActive ? "text-tomato-red font-semibold underline" : "text-dark-spruce hover:text-tomato-red"
-                      }`}
-                    >
-                      {link.name}
-                    </Link>
-                  ) : (
-                    <a
-                      key={link.name}
-                      href={link.href}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="font-serif text-3xl text-dark-spruce hover:text-tomato-red transition-colors duration-200"
-                    >
-                      {link.name}
-                    </a>
-                  );
-                })}
-              </div>
-              <div className="flex gap-6 justify-center mt-12 text-dusty-olive">
-                <Instagram className="cursor-pointer hover:text-dark-spruce" />
-                <Mail className="cursor-pointer hover:text-dark-spruce" />
-                <Phone className="cursor-pointer hover:text-dark-spruce" />
-              </div>
+    return <>
+        <motion.nav aria-label="Main navigation" className={`fixed top-0 left-0 z-50 w-full px-6 transition-all duration-300 ${isScrolled || alwaysShown ? 'border-b border-dark-spruce/5 bg-eggshell-white/95 py-3 shadow-sm backdrop-blur-md' : 'bg-transparent py-6'}`} initial={alwaysShown ? false : { y: -100 }} animate={{ y: 0 }}>
+            <div className="mx-auto flex max-w-7xl items-center justify-between">
+                <Link to="/" className="flex items-center gap-3"><img src={logo} alt="Landscapes India" className="h-10 w-auto" /><span className="hidden font-serif text-xl font-bold md:block">Landscapes India</span></Link>
+                <div className="hidden gap-10 md:flex">{links.map(link => <NavLink key={link.href} to={link.href} className={({ isActive }) => `font-semibold ${isActive ? 'underline underline-offset-8' : 'text-dark-spruce/80 hover:text-dark-spruce'}`}>{link.name}</NavLink>)}</div>
+                <Link to="/contact" className="hidden items-center gap-2 rounded-full bg-dark-spruce px-6 py-2 text-sm font-semibold text-white hover:bg-tomato-red md:flex">Let's Talk <ArrowRight size={16} aria-hidden="true" /></Link>
+                <button type="button" className="p-2 md:hidden" aria-label="Open menu" aria-haspopup="dialog" aria-expanded={open} onClick={() => setOpen(true)}><Menu /></button>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
-  );
-};
-
-export default Navbar;
-
+        </motion.nav>
+        {open && <Dialog label="Mobile navigation" onClose={() => setOpen(false)} className="h-[100dvh] w-screen !max-h-none !max-w-none bg-eggshell-white">
+            <div className="relative flex min-h-[100dvh] flex-col items-center justify-center gap-12 p-6">
+                <button type="button" className="absolute top-6 right-6 p-2" aria-label="Close menu" onClick={() => setOpen(false)}><X size={32} /></button>
+                <nav aria-label="Mobile links" className="flex flex-col items-center gap-8">{links.map(link => <NavLink key={link.href} to={link.href} onClick={() => setOpen(false)} className={({ isActive }) => `font-serif text-3xl ${isActive ? 'text-tomato-red underline' : ''}`}>{link.name}</NavLink>)}</nav>
+                <div className="flex gap-6">
+                    <a href="https://www.instagram.com/landscapesindiaofficial/" aria-label="Instagram"><Instagram /></a>
+                    <a href="mailto:landscapesindia2015@gmail.com" aria-label="Email Landscapes India"><Mail /></a>
+                    <a href="tel:+919327006384" aria-label="Call Landscapes India"><Phone /></a>
+                </div>
+            </div>
+        </Dialog>}
+    </>;
+}
